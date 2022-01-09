@@ -11,7 +11,6 @@ class Dashboard extends Component {
   }
 
   handleOnClick = (e) => {
-    debugger;
     if(e.target.value.selected === false || e.target.value.selected === undefined ){
       this.setState({selected: !this.state.selected});
     }

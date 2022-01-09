@@ -16,7 +16,6 @@ class LogOut extends Component {
   }
 
   handleSignIn = (e) => {
-    debugger;
     e.preventDefault()
     console.log("handleSignIn")
     const { dispatch } = this.props
