@@ -15,9 +15,7 @@ function addQuestion (question) {
 export function handleAddQuestion (optionOneText, optionTwoText) {
   return (dispatch, getState) => {
     const { authedUser } = getState()
-
     dispatch(showLoading())
-
     return saveQuestion({
       optionOneText,
       optionTwoText ,
@@ -35,10 +33,10 @@ export function receiveQuestions (questions) {
   }
 }
 
-function submitAnswer ({ id, authedUser,answer }) {
+function submitAnswer (qid,authedUser,answer ) {
   return {
     type: SUBMIT_ANSWER,
-    id,
+    qid,
     authedUser,
     answer
   }
@@ -47,8 +45,6 @@ function submitAnswer ({ id, authedUser,answer }) {
 
 
 export function handleSubmitAnswer (info) {
-
-
   return (dispatch, getState) => {
     const { authedUser } = getState()
     const { qid, answer} = info
@@ -59,7 +55,7 @@ export function handleSubmitAnswer (info) {
       qid,
       answer,
     })
-      .then((question) => dispatch(submitAnswer( qid,authedUser,answer)))
+      .then(() => dispatch(submitAnswer( qid,authedUser,answer)))
       .then(() => dispatch(hideLoading()))
   }
 

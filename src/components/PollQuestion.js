@@ -7,20 +7,21 @@ import { Redirect } from 'react-router-dom'
 class PollQuestion extends Component {
     state = {
         answer:'', 
-        toHome: false,
+        toPollResults: false,
     }
  
     handleSubmit = (e) => {
         e.preventDefault()
-        console.log("Handle handleSubmit")
+        console.log("Handle handleSubmit", this.state.answer === '' )
+        console.log("Handle handleSubmit", this.state.answer === null )
         const { dispatch, question, authedUser } = this.props
 
         dispatch(handleSubmitAnswer({
         qid: question.id,
         authedUser,
-        answer: this.state.answer === '' ? "optionOne": this.state.answer,
+        answer: this.state.answer === '' ? "optionOne" : this.state.answer,
         }))
-        this.setState({toHome: true})
+        this.setState({toPollResults: true})
   }
   
   handleChange = (e) =>{
@@ -36,9 +37,10 @@ class PollQuestion extends Component {
       return <p>This Question doesn't existd</p>
     }
 
-    const {toHome} = this.state
-    if (toHome === true) {
-      return <Redirect to='/' />
+    const {toPollResults} = this.state
+    if (toPollResults === true) {
+
+      return <Redirect to={`/pollResults/${question.id}`}  /> 
     }
 
     const { author, optionOne,optionTwo, id } = question

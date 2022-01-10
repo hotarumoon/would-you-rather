@@ -4,28 +4,33 @@ import { Link, withRouter } from 'react-router-dom'
 import { Redirect } from 'react-router-dom'
 
 class Question extends Component {
+  state={
+    goToPollResult: false
+  }
 
   handleViewPoll = (e) => {
     e.preventDefault()
     console.log("Handle View Poll")
-    const { question } = this.props
-
-    return <Redirect to={`/pollResult/${question.id}`}  />
+    this.setState({goToPollResult: true})
   }
   
   render() {
     const { question } = this.props
     console.log("this.props",this.props)
     if (question === null) {
-      return <p>This Question doesn't existd</p>
+      return <p>This Question doesn't exist</p>
+    }
+
+    const {goToPollResult} = this.state
+    if (goToPollResult === true) {
+      return <Redirect to={`/question/${question.id}`}  />
     }
 
     const { author, optionOne,optionTwo, id } = question
     const avatarURL = this.props.users[author].avatarURL
     console.log(avatarURL)
     return (
-    
-      <Link to={`/question/${id}`} className='tweet'>
+      <div className='tweet'>
         <img
           src={ avatarURL}
           alt={`Avatar of ${author}`}
@@ -41,11 +46,12 @@ class Question extends Component {
             <p>{optionOne.text} {this.props.showVotes && optionOne.votes.length}</p> 
             <p>OR</p> 
              <p>{optionTwo.text} {this.props.showVotes && optionTwo.votes.length}</p>
-          
-            <button  className='btn' onClick={this.handleViewPoll} >View poll</button>
+             <Link to={`/question/${id}`}>
+              <button  className='btn' onClick={this.handleViewPoll} >View poll</button>
+            </Link>
           </div>
         </div>
-      </Link>
+      </div>
     
     )
   }

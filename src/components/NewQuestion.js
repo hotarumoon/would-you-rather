@@ -49,7 +49,7 @@ class NewQuestion extends Component {
         <form className='new-tweet' onSubmit={this.handleSubmit}>
           <p style={{ paddingBottom: '10px'}}>Complete the question, Would you rather...</p>
           <textarea style={{height: '60px'}}
-            placeholder="Enter the question here"
+            placeholder="Enter option one text here"
             value={optionOneText}
             onChange={this.handleChange1}
             className='textarea'
@@ -57,7 +57,7 @@ class NewQuestion extends Component {
           />
           <p style={{"textAlign": "center", paddingBottom: '10px', paddingTop: '10px'}}>OR</p>
            <textarea style={{height: '60px'}}
-            placeholder="Enter the question here"
+            placeholder="Enter option two text here"
             value={optionTwoText}
             onChange={this.handleChange2}
             className='textarea'

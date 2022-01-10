@@ -5,12 +5,12 @@ import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
 import LoadingBar from 'react-redux-loading'
 import NewQuestion from './NewQuestion'
-import TweetPage from './QuestionPage'
+import QuestionPage from './QuestionPage'
 import Nav from './Nav'
 import LeaderBoard from './LeaderBoard'
 import LogOut from './LogOut'
 import PollQuestion from './PollQuestion'
-import PollResults from './PollResults'
+import PollResultPage from './PollResultPage'
 
 class App extends Component {
   componentDidMount() {
@@ -27,11 +27,11 @@ class App extends Component {
               ? null
               : <div>
                   <Route path='/' exact component={Dashboard} />
-                  <Route path='/question/:id' component={TweetPage} />
+                  <Route path='/question/:id' component={QuestionPage} />
                   <Route path='/new' component={NewQuestion} />
                   <Route path='/leaderBoard' component={LeaderBoard} />
                   <Route path='/logOut' component={LogOut} />
-                  <Route path='/pollResults/:id' component={PollResults} />
+                  <Route path='/pollResults/:id' component={PollResultPage} />
                   <Route path='/pollQuestion/:id' component={PollQuestion} />
                 </div>}
           </div>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { Link, withRouter } from 'react-router-dom'
 import { handleSubmitAnswer } from '../actions/questions'
 import { Redirect } from 'react-router-dom'
+import ProgressBar from './ProgressBar'
 
 class PollResults extends Component {
     state = {
@@ -31,6 +32,7 @@ class PollResults extends Component {
  
   render() {
     const { question } = this.props
+    console.log("POLL RESULTS")
     console.log("this.props",this.props)
     if (question === null) {
       return <p>This Question doesn't existd</p>
@@ -39,32 +41,39 @@ class PollResults extends Component {
     const { author, optionOne,optionTwo, id } = question
     const avatarURL = this.props.users[author].avatarURL
     console.log(avatarURL)
+
+    const progressOne = optionOne.votes.length / (optionOne.votes.length + optionTwo.votes.length) * 100
+    const progressTwo = optionTwo.votes.length / (optionOne.votes.length + optionTwo.votes.length) * 100
+    const progressBarData = [
+      { bgcolor: "#6a1b9a", completed: Number.isNaN(progressOne) ? 0 :  progressOne},
+      { bgcolor: "#00695c", completed:  Number.isNaN(progressTwo) ? 0 : progressTwo},
+    ];
+
     return (
-    
-      <Link to={`/question/${id}`} className='tweet'>
+  
+      <Link to={`/pollResult/${id}`} className='tweet'>
         <img
           src={ avatarURL}
           alt={`Avatar of ${author}`}
           classauthor='avatar'
           style={{height: '50px', width: '50px', paddingRight: '20 px', paddingLeft: '20px', paddingTop: '20px'}}
         />
-        <div classauthor='tweet-info'>
-          <div style={{paddingRight: '20 px', paddingLeft: '30px'}}>
-            <p><b> {author} asks:</b></p>
+        <div >
+          <div >
+            <p><b> Asked by {author} </b></p>
            
-            <p>POLL RESULT </p>
-            <label className="miro-radiobutton">
-            <input type="radio" value={"optionOne"} name="radio" checked onChange={this.handleChange}/>
-            <span>{optionOne.text}</span>
-            </label>
-            <br></br>
-            <label className="miro-radiobutton">
-            <input type="radio" value={"optionTwo"} name="radio" onChange={this.handleChange}/>
-            <span>{optionTwo.text}</span>
-            </label>
-            <br></br>
-           
-            <button  className='btn' onClick={this.handleSubmit} >SUBMIT</button>
+            <p>Results: </p>
+            <div style={ {"border": "1px solid #dad7d7", "width":"500px", "marginBottom":"20px"}} >
+               <span style={{"marginBottom": "20px"}}>{optionOne.text}</span>
+               <ProgressBar key={0} bgcolor={progressBarData[0].bgcolor} completed={progressBarData[0].completed} />
+               <span>{optionOne.votes.length} out of {(optionOne.votes.length + optionTwo.votes.length)} votes </span>
+            </div>
+            <div style={ {"border": "1px solid #dad7d7", "width":"500px"}} >
+               <span style={{"marginBottom": "20px"}}>{optionTwo.text}</span>
+               <ProgressBar key={1} bgcolor={progressBarData[1].bgcolor} completed={progressBarData[1].completed} />
+               <span>{optionTwo.votes.length} out of {(optionOne.votes.length + optionTwo.votes.length)} votes </span>
+            </div>
+  
           </div>
         </div>
       </Link>

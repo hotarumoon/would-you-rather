@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import PollQuestion from './PollQuestion'
+import PollResults from './PollResults'
 
-class QuestionPage extends Component {
+class PollResultPage extends Component {
   render() {
-    console.log("QuestionPage")
+    console.log("Poll ResultsPage")
     const { id } = this.props
     return (
       <div>
-        <PollQuestion id={id} />
+        <PollResults id={id} />
         
       </div>
     )
@@ -24,4 +24,4 @@ function mapStateToProps ({ authedUser, questions, users }, props) {
   }
 }
 
-export default connect(mapStateToProps)(QuestionPage)
+export default connect(mapStateToProps)(PollResultPage)

@@ -24,9 +24,6 @@ class Dashboard extends Component {
     };
     const {questions} = this.props
 
-    if(this.state.selectedButton === null){
-      debugger;
-    }
 
     return (
 

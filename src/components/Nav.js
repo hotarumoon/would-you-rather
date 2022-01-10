@@ -5,9 +5,8 @@ import { NavLink } from 'react-router-dom'
 
 class Nav extends Component {
   render() {
-    console.log("NAVJS",this.props.authedUser)
-    const user = this.props.users[this.props.authedUser]
-    const userImg = user? user.avatarURL: null
+  const user = this.props.users[this.props.authedUser]
+  const userImg = user? user.avatarURL: null
   return (
     <nav className='nav'>
       <ul>
@@ -26,12 +25,12 @@ class Nav extends Component {
             Leader Board
           </NavLink>
         </li>
-        <li>
+        <li style={{"display":  this.props.authedUser === "loggedOut" ? "none" : "block" }}>
           <NavLink to='/hello' activeClassName='passive'>
             Hello {this.props.authedUser}
           </NavLink>
         </li>
-        <li>
+        <li style={{"display": this.props.authedUser === "loggedOut" ? "none": "block"}}>
           <NavLink to='/logOut' activeClassName='active'>
           < img src={userImg} alt="Avatar logo" style={{    
             "width": "33px",
@@ -55,7 +54,7 @@ class Nav extends Component {
 function mapStateToProps ({authedUser, users}) {
   return {
     authedUser,
-    users
+    users,
   }
 }
 
