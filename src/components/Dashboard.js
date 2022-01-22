@@ -20,13 +20,10 @@ class Dashboard extends Component {
   render() {
     const notSelectedButton = {
       width:'50%',
-
     };
-    const {questions} = this.props
-
-
+ 
     return (
-
+      this.props.authedUser === "loggedOut" ?  null : (
       <div>
       <h3 className='center'>Would You Rather App</h3>
       <div style={{"border":" 1px solid #D3D3D3", "borderRadius": '5px'}}>
@@ -49,11 +46,12 @@ class Dashboard extends Component {
       {(this.state.selected === false ||this.state.selected === '' )? 
         <ul className='dashboard-list'>
           {this.props.questionIds.filter(id => {
-            return this.props.questions[id].optionOne.votes.length === 0 && questions[id].optionTwo.votes.length === 0
+            return !this.props.questions[id].optionOne.votes.includes(this.props.authedUser)
+            && !this.props.questions[id].optionTwo.votes.includes(this.props.authedUser)
           })
           .map((id) => (
             <li key={id}>
-              <Question id={id} showVotes={false}/>
+              <Question id={id} showVotes={false} answeredQuestion={false}/>
             </li>
           ))}
         </ul>
@@ -62,10 +60,11 @@ class Dashboard extends Component {
 
         <ul className='dashboard-list'>
           {this.props.questionIds.filter(id => {
-            return this.props.questions[id].optionOne.votes.length > 0 || questions[id].optionTwo.votes.length > 0
+            return this.props.questions[id].optionOne.votes.includes(this.props.authedUser)
+            || this.props.questions[id].optionTwo.votes.includes(this.props.authedUser)
           }).map((id) => (
             <li key={id}>
-              <Question id={id} showVotes={false}/>
+              <Question id={id} showVotes={false} answeredQuestion={true}/>
             </li>
           ))}
         </ul>
@@ -74,15 +73,19 @@ class Dashboard extends Component {
 
       </div>
       </div>
+      )
     )
   }
 }
 
-function mapStateToProps ({ questions }) {
+
+function mapStateToProps ({ authedUser, questions }) {
   return {
     questionIds: Object.keys(questions)
       .sort((a,b) => questions[b].timestamp - questions[a].timestamp),
-    questions: questions
+    questions: questions,
+    authedUser,
+    
 
   }
 }

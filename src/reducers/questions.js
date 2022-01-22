@@ -8,10 +8,17 @@ export default function questions (state = {}, action) {
         ...action.questions
       }
     case SUBMIT_ANSWER :
-      return {    
-        ...state,
-        ...action.questions
-      }
+      const { qid, answer, authedUser } = action;
+      return {
+				...state,
+            [qid]: {
+                ...state[qid],
+                [answer]: {
+                    ...state[qid][answer],
+                    votes: state[qid][answer].votes.concat([authedUser])
+                }
+            }
+			}
     case ADD_QUESTION :
       return {
         ...state,

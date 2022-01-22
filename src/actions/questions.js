@@ -23,6 +23,7 @@ export function handleAddQuestion (optionOneText, optionTwoText) {
     })
       .then((question) => dispatch(addQuestion(question)))
       .then(() => dispatch(hideLoading()))
+      .catch((e) => { console.error("Error on handleAddQuestion, ", e)})
   }
 }
 
@@ -33,12 +34,13 @@ export function receiveQuestions (questions) {
   }
 }
 
-function submitAnswer (qid,authedUser,answer ) {
+function submitAnswer (qid,authedUser,answer,users ) {
   return {
     type: SUBMIT_ANSWER,
     qid,
     authedUser,
-    answer
+    answer,
+    users,
   }
 }
 
@@ -46,7 +48,7 @@ function submitAnswer (qid,authedUser,answer ) {
 
 export function handleSubmitAnswer (info) {
   return (dispatch, getState) => {
-    const { authedUser } = getState()
+    const { authedUser, users } = getState()
     const { qid, answer} = info
     dispatch(showLoading())
 
@@ -55,8 +57,9 @@ export function handleSubmitAnswer (info) {
       qid,
       answer,
     })
-      .then(() => dispatch(submitAnswer( qid,authedUser,answer)))
+      .then(() => dispatch(submitAnswer( qid,authedUser,answer,users)))
       .then(() => dispatch(hideLoading()))
+      .catch((e) => { console.error("Error on handleSubmitAnswer, ", e)})
   }
 
 }

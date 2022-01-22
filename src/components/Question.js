@@ -5,30 +5,30 @@ import { Redirect } from 'react-router-dom'
 
 class Question extends Component {
   state={
-    goToPollResult: false
+    goToPollResult: false,
   }
 
   handleViewPoll = (e) => {
     e.preventDefault()
     console.log("Handle View Poll")
     this.setState({goToPollResult: true})
+    
   }
   
   render() {
     const { question } = this.props
-    console.log("this.props",this.props)
     if (question === null) {
       return <p>This Question doesn't exist</p>
     }
 
     const {goToPollResult} = this.state
     if (goToPollResult === true) {
-      return <Redirect to={`/question/${question.id}`}  />
+      return <Redirect to={`/questions/${question.id}`}  />
     }
-
+  
     const { author, optionOne,optionTwo, id } = question
     const avatarURL = this.props.users[author].avatarURL
-    console.log(avatarURL)
+    
     return (
       <div className='tweet'>
         <img
@@ -46,7 +46,7 @@ class Question extends Component {
             <p>{optionOne.text} {this.props.showVotes && optionOne.votes.length}</p> 
             <p>OR</p> 
              <p>{optionTwo.text} {this.props.showVotes && optionTwo.votes.length}</p>
-             <Link to={`/question/${id}`}>
+             <Link to={`/questions/${id}`}>
               <button  className='btn' onClick={this.handleViewPoll} >View poll</button>
             </Link>
           </div>

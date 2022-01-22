@@ -1,54 +1,51 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { handleSubmitAnswer } from '../actions/questions'
-import { Redirect } from 'react-router-dom'
+import NotFound from './NotFound'
+import PollResults from './PollResults'
 
 class PollQuestion extends Component {
-    state = {
-        answer:'', 
-        toPollResults: false,
-    }
+  state = {
+    answer:'', 
+    toPollResults: false,
+  }
  
-    handleSubmit = (e) => {
-        e.preventDefault()
-        console.log("Handle handleSubmit", this.state.answer === '' )
-        console.log("Handle handleSubmit", this.state.answer === null )
-        const { dispatch, question, authedUser } = this.props
+  handleSubmit = (e) => {
+    e.preventDefault()
+    const { dispatch, question, authedUser } = this.props
 
-        dispatch(handleSubmitAnswer({
-        qid: question.id,
-        authedUser,
-        answer: this.state.answer === '' ? "optionOne" : this.state.answer,
-        }))
-        this.setState({toPollResults: true})
+    dispatch(handleSubmitAnswer({
+    qid: question.id,
+    authedUser,
+    answer: this.state.answer === '' ? "optionOne" : this.state.answer,
+    }))
+    this.setState({toPollResults: true})
   }
   
   handleChange = (e) =>{
-      console.log("handle radio change", e)
-      this.setState({answer: e.target.value})
-
+    console.log("handle radio change", e)
+    this.setState({answer: e.target.value})
   }
  
   render() {
     const { question } = this.props
     console.log("this.props",this.props)
-    if (question === null) {
-      return <p>This Question doesn't existd</p>
+    if (question === null || question === undefined) {
+      return <NotFound/>
     }
 
     const {toPollResults} = this.state
     if (toPollResults === true) {
-
-      return <Redirect to={`/pollResults/${question.id}`}  /> 
+      return <PollResults id={this.props.question.id} />
     }
 
-    const { author, optionOne,optionTwo, id } = question
+    const { author, optionOne,optionTwo } = question
     const avatarURL = this.props.users[author].avatarURL
     console.log(avatarURL)
+
     return (
-    
-      <Link to={`/question/${id}`} className='tweet'>
+      <div className='tweet'>
         <img
           src={ avatarURL}
           alt={`Avatar of ${author}`}
@@ -61,7 +58,7 @@ class PollQuestion extends Component {
            
             <p>Would you rather: </p>
             <label className="miro-radiobutton">
-            <input type="radio" value={"optionOne"} name="radio" checked onChange={this.handleChange}/>
+            <input type="radio" value={"optionOne"} name="radio" onChange={this.handleChange}/>
             <span>{optionOne.text}</span>
             </label>
             <br></br>
@@ -74,7 +71,7 @@ class PollQuestion extends Component {
             <button  className='btn' onClick={this.handleSubmit} >SUBMIT</button>
           </div>
         </div>
-      </Link>
+      </div>
     
     )
   }

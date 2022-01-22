@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 import { handleAddQuestion } from '../actions/questions'
 import { Redirect } from 'react-router-dom'
 
@@ -39,11 +40,14 @@ class NewQuestion extends Component {
   render() {
     const { optionOneText, optionTwoText, toHome } = this.state
 
+    if(this.props.authedUser === null ||this.props.authedUser === "loggedOut" ){
+      return <Redirect to='/logOut' />
+    }
     if (toHome === true) {
       return <Redirect to='/' />
     }
-
     return (
+      this.props.authedUser === "loggedOut" ?  null : (
       <div>
         <h3 className='center'>Create New Question</h3>
         <form className='new-tweet' onSubmit={this.handleSubmit}>
@@ -67,13 +71,22 @@ class NewQuestion extends Component {
           <button
             className='btn'
             type='submit'
-            disabled={optionOneText === '' || optionTwoText === ''}>
+            disabled={optionOneText === '' || optionTwoText === '' || optionOneText === optionTwoText}>
               Submit
           </button>
         </form>
       </div>
+      )
     )
   }
 }
 
-export default connect()(NewQuestion)
+
+function mapStateToProps ({authedUser}) {
+  return {
+    authedUser,
+  
+  }
+}
+
+export default withRouter(connect(mapStateToProps)(NewQuestion))

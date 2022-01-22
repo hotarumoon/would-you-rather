@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { setAuthedUser } from '../actions/authedUser'
 import { Redirect } from 'react-router-dom'
 
-class LogOut extends Component {
+class Login extends Component {
   state = {
     selectedUser: '',
     toHome: false,
@@ -19,19 +19,15 @@ class LogOut extends Component {
 
   handleSignIn = (e) => {
     e.preventDefault()
-    console.log("handleSignIn")
     const { dispatch } = this.props
-    console.log("this.state.selectedUser",this.state.selectedUser)
-    dispatch(setAuthedUser(this.state.selectedUser))
+    let usersArr = Object.entries(this.props.users);
+    let firstUser = usersArr[0][1].id;
+    let user = this.state.selectedUser === null || this.state.selectedUser === undefined || this.state.selectedUser === '' ? firstUser : this.state.selectedUser
+    console.log(user)
+    dispatch(setAuthedUser(user))
     this.setState({toHome: true})
   }  
   
-  componentDidMount(){
-    const { dispatch } = this.props
-    let usersArr = Object.entries(this.props.users);
-    this.setState({selectedUser: usersArr[0][1].id})
-    dispatch(setAuthedUser("loggedOut"))
-  }
   
   render() {
     const {toHome} = this.state
@@ -79,4 +75,4 @@ function mapStateToProps ({authedUser, users}) {
   }
 }
 
-export default withRouter(connect(mapStateToProps)(LogOut))
+export default withRouter(connect(mapStateToProps)(Login))

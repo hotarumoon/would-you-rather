@@ -10,27 +10,27 @@ class Nav extends Component {
   return (
     <nav className='nav'>
       <ul>
-        <li>
+        <li style={{"display":  this.props.authedUser === "loggedOut" || this.props.authedUser === null ? "none" : "block" }}>
           <NavLink to='/' exact activeClassName='active'>
             Home
           </NavLink>
         </li>
-        <li>
-          <NavLink to='/new' activeClassName='active'>
+        <li style={{"display":  this.props.authedUser === "loggedOut" || this.props.authedUser === null ? "none" : "block" }}>
+          <NavLink to='/add' activeClassName='active'>
             New Question
           </NavLink>
         </li>
-        <li>
-          <NavLink to='/leaderBoard' activeClassName='active'>
+        <li style={{"display":  this.props.authedUser === "loggedOut"  || this.props.authedUser === null ? "none" : "block" }}>
+          <NavLink to='/leaderboard' activeClassName='active'>
             Leader Board
           </NavLink>
         </li>
-        <li style={{"display":  this.props.authedUser === "loggedOut" ? "none" : "block" }}>
+        <li style={{"display":  this.props.authedUser === "loggedOut" || this.props.authedUser === null ? "none" : "block" , "pointerEvents": "none", "cursor": "default"}}>
           <NavLink to='/hello' activeClassName='passive'>
             Hello {this.props.authedUser}
           </NavLink>
         </li>
-        <li style={{"display": this.props.authedUser === "loggedOut" ? "none": "block"}}>
+        <li style={{"display": this.props.authedUser === "loggedOut" || this.props.authedUser === null  ? "none": "block"}}>
           <NavLink to='/logOut' activeClassName='active'>
           < img src={userImg} alt="Avatar logo" style={{    
             "width": "33px",
